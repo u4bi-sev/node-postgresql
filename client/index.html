@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>restify api postgresql client</title>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>        
+    </head>
+    <body>
+
+        <button onclick="user().insert('u4bi', 100.02, 15)">추가</button>
+        <button onclick="side()" >테스트</button>
+        
+        <script>
+
+            function side(){
+
+                user().insert('Test_Name', 1000.00, 17).then(function(e) {
+                    console.log('insert', e.data);
+
+                    user().update(e.data.id, 'Update_Name', e.data.pay, e.data.age + 1).then(function(e){
+                        
+                        console.log('update', e.data);
+                        var 
+                            id = e.data.id;
+
+                        user().remove(id).then(function(e) {
+                            console.log('delete user id ' + id , e.data);
+                        });
+
+                    });
+
+                });
+            }
+            
+
+            user().selects().then(function(e) {
+                console.log('select users', e.data);
+            });
+
+            // user().select(2).then(function(e) {
+            //     console.log('select user id 2', e.data);
+            // });
+
+            // user().update(2, 'Update_Name', 1000.00, 18).then(function(e) {
+            //     console.log('update user id 2', e.data);
+            // });
+
+
+
+            function user(){
+                return {
+                    selects : selects,
+                    select  : select,
+                    insert  : insert,
+                    update  : update,
+                    remove  : remove,
+                    url     : 'http://localhost:7776'
+                };
+
+                function selects(){
+                    return axios( { method : 'GET',    url : this.url + '/user' } ); }
+                function select(id){
+                    return axios( { method : 'GET',    url : this.url + '/user/' + id }); }
+                function insert(name, pay, age){
+                    return axios( { method : 'POST',   url : this.url + '/user',       data: { name : name, pay  : pay, age : age } }); }
+                function update(id, name, pay, age){
+                    return axios( { method : 'PUT',    url : this.url + '/user/' + id, data: { name : name, pay  : pay, age : age } }); }
+                function remove(id){
+                    return axios({  method : 'DELETE', url : this.url + '/user/' + id }); }
+            }
+            
+        </script>
+    </body>
+</html>
