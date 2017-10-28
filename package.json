@@ -1,0 +1,17 @@
+{
+  "name": "res-postgresql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/app"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pg-promise": "^7.0.3",
+    "restify": "^6.2.3",
+    "restify-cors-middleware": "^1.0.1"
+  }
+}
